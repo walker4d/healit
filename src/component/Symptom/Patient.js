@@ -3,7 +3,7 @@ import { Link, Redirect, useHistory,useLocation } from 'react-router-dom';
  function Patient (props) {
 
    let evidence = [
-            {id: "p_10", choice_id: "", "source": "predefined"}, //High cholesterol
+            {id: "p_10", choice_id: "", "source": "initial"}, //High cholesterol
             {id: "p_7", choice_id: "", "source": "predefined"},  // BMI over 30
             {id: "p_9", choice_id: "", "source": "predefined"},// Hypertension
             {id: "p_8", choice_id: "", "source": "predefined"}, // Diabetes
@@ -22,10 +22,19 @@ import { Link, Redirect, useHistory,useLocation } from 'react-router-dom';
 
             ];
     
-    console.log(props.state);
+   
+ 
     function handleSubmit (e) {
   
         
+    }
+   function next(){
+
+    props.setState('evidence', evidence);
+    console.log(props.state);
+
+    props.next();
+
     }
    function componentWillUpdate () {
         console.log(questions)
@@ -111,7 +120,7 @@ import { Link, Redirect, useHistory,useLocation } from 'react-router-dom';
 
 <div class="col-lg-3">
 <div class="text-center" >
-    <button class="btn btn-success"  type="submit"  disabled={props.isLast()} onClick={props.next} ><i class="fas fa-pencil-alt"></i> next </button>
+    <button class="btn btn-success"  type="submit"  disabled={props.isLast()} onClick={(e) => next()} ><i class="fas fa-pencil-alt"></i> next </button>
 </div>
 
 </div>

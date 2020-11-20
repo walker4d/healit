@@ -317,8 +317,7 @@ document.querySelector('.containers').classList.add("sign-up-mode");
             <br/>
             <h3>New here ?</h3>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-              ex ratione. Aliquid!
+              Join our Community that is actively engague in health and wellness...
             </p>
             <button class="btn transparent" onClick={sign_up} id="sign-up-btn">
               Sign up
@@ -334,8 +333,7 @@ document.querySelector('.containers').classList.add("sign-up-mode");
             <br/>
             <h3>One of us ?</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-              laboriosam ad deleniti.
+              welcome back our health and site...
             </p>
             <button class="btn transparent sign-up-mode" id="sign-in-btn" onClick={sign_in}>
               Sign in

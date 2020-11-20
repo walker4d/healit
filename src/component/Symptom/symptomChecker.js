@@ -16,7 +16,7 @@ export default class Symptoms extends Component {
   
     this.state = {
       
-       
+       hi : 'hi',
         gender:'',
         age:'',
        
@@ -151,7 +151,9 @@ verifyAgeAndGender(){
          );
      }  
    
-
+setHi(val){
+this.state.hi = val;
+}
  
   render() {
     
@@ -175,13 +177,13 @@ verifyAgeAndGender(){
     <section id="about" class="about" style={{marginTop:'-100px'}}>
 <div class="container" data-aos="fade-up">
 
-<section id="portfolio" class="portfolio" >
+<section  >
 <div class="">
 
 
 
 <div class="" data-aos="fade-up">
- <div class="col-lg-12 col-md-12 portfolio-item" >
+ <div class="col-lg-12 col-md-12" >
  <section id="contact" class="contact">
      
 <div class="" style={{padding:'80px'}}>
@@ -206,10 +208,10 @@ verifyAgeAndGender(){
 
 
 <Steps >
-        <Step component={Intro} />
-        <Step component={Patient} />
-        <Step component={Simp} />
-        <Step component={Interview} />
+        <Step hi={this.state.hi} setHi={this.setHi} component={Intro} />
+        <Step hi={this.state.hi} component={Patient} />
+        <Step  hi={this.state.hi} component={Simp} />
+        <Step  hi={this.state.hi} component={Interview} />
       
 </Steps>
 

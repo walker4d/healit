@@ -33,10 +33,10 @@ const header = () =>{
 <ul>
   <li class="active"><a href="/">Home</a></li>
 
-  <li class="drop-down"><a href="#">About</a>
+  <li class="drop-down"><a href="#">about</a>
     <ul>
-      <li><a href="#">About Us</a></li>
-      <li><a href="#">Team</a></li>
+      <li><a href="#"></a></li>
+      <li><a href="#"></a></li>
 
       <li class="drop-down"><a href="#">Drop Down 2</a>
         <ul>
@@ -50,10 +50,9 @@ const header = () =>{
     </ul>
   </li>
 
-  <li><a href="#">Pricing</a></li>
-  <li><a href="#">Services</a></li>
-  <li><a href="#">Portfolio</a></li>
-  <li><a href="#">Blog</a></li>
+  <li><a href="#">Diet and dishes</a></li>
+  <li><a href="#">Blogs</a></li>
+  
   <li><a href="#">Contact</a></li>
 
 { isAuth() ?

@@ -15,7 +15,7 @@ export default class Home extends Component {
     <div class="hero-container" data-aos="fade-up">
       <h1>Welcome to Healit</h1>
       <h2>A place where your Health Matters.</h2>
-      <a href="#about" class="btn-get-started scrollto">Get Started</a>
+      <a href="/SymptomsChecker" class="btn-get-started scrollto">Get Started </a>
     </div>
   </section>
 
@@ -69,25 +69,27 @@ export default class Home extends Component {
 
           <div class="col-lg-6 video-box align-self-baseline">
             <img src="assets/img/about.jpg" class="img-fluid" alt=""/>
-            <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="venobox play-btn mb-4" data-vbtype="video" data-autoplay="true"></a>
+            {/* <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="venobox play-btn mb-4" data-vbtype="video" data-autoplay="true"></a> */}
           </div>
 
           <div class="col-lg-6 pt-3 pt-lg-0 content">
-            <h3>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h3>
+            <h3>Always remeber .</h3>
             <p class="font-italic">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
+            A year from now, you’ll wish you had started today.
             </p>
             <ul>
-              <li><i class="bx bx-check-double"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
-              <li><i class="bx bx-check-double"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
-              <li><i class="bx bx-check-double"></i> Voluptate repellendus pariatur reprehenderit corporis sint.</li>
-              <li><i class="bx bx-check-double"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
+              <li><i class="bx bx-check-double"></i> Become a priority in your life.
+.</li>
+              <li><i class="bx bx-check-double"></i> Strength doesn’t come from what you can do. 
+.</li>
+              <li><i class="bx bx-check-double"></i> It comes from overcoming the things you once thought you couldn’t do..</li>
+The fact that you aren’t where you want to be should be enough motivation.
+              <li><i class="bx bx-check-double"></i> </li>
             </ul>
             <p>
-              Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+              {/* Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
               velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              culpa qui officia deserunt mollit anim id est laborum
+              culpa qui officia deserunt mollit anim id est laborum */}
             </p>
           </div>
 
