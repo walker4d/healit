@@ -10,6 +10,10 @@ import Error from '../component/Error';
 import Auth from '../Auth/auth';
 import profile from '../component/profile';
 import Symptoms from '../component/Symptom/symptomChecker';
+import BlogPosts from '../component/Blogs/blogs';
+import create from '../component/Blogs/create';
+import Blog from '../component/Blogs/blog';
+import Results from '../component/Symptom/results';
 
 import {
     BrowserRouter as Router,
@@ -41,6 +45,14 @@ export default class layout extends Component {
     <Route exact path="/password/reset/:token" component={activatePassword} />
     <Route exact path="/Auth" component={Auth} />
     <Route exact path="/SymptomsChecker" component={Symptoms} />
+    <Route exact path="/Result" component={Results}/>
+    <Route exact path="/blogs" component={BlogPosts} />
+    <Route exact path="/blog" component={Blog} />
+
+    <Route exact path="/create" component={create} />
+
+    
+
 
     
 

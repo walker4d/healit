@@ -110,7 +110,7 @@ import { Link, Redirect, useHistory,useLocation } from 'react-router-dom';
 <div class="row">
 
 <div class="col-lg-3">
-<div class="text-center"><button class="btn btn-success"  type="submit"  disabled={props.isFirst()} onClick={props.prev}><i class="fas fa-pencil-alt"></i> back </button></div>
+<div class="text-center"></div>
 
 </div>
 
@@ -120,7 +120,7 @@ import { Link, Redirect, useHistory,useLocation } from 'react-router-dom';
 
 <div class="col-lg-3">
 <div class="text-center" >
-    <button class="btn btn-success"  type="submit"  disabled={props.isLast()} onClick={(e) => next()} ><i class="fas fa-pencil-alt"></i> next </button>
+    <button class="btn btn-success"  type="submit"  disabled={props.isLast()} onClick={(e) => next()} ><i class="fas fa-chevron-circle-right"></i> next </button>
 </div>
 
 </div>

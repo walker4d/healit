@@ -113,7 +113,7 @@ console.log(option)
 <div style={{marginTop:'150px'}} class="row">
 
 <div class="col-lg-3">
-<div class="text-center"><button class="btn btn-success"  type="submit"  disabled={props.isFirst()} onClick={props.prev}><i class="fas fa-pencil-alt"></i> back </button></div>
+<div class="text-center"></div>
 
 </div>
 
@@ -123,7 +123,7 @@ console.log(option)
 
 <div class="col-lg-3">
 <div class="text-center" >
-    <button class="btn btn-success"  type="submit"  disabled={props.isLast()} onClick={(e) => next()} ><i class="fas fa-pencil-alt"></i> next </button>
+    <button class="btn btn-success"  type="submit"  disabled={props.isLast()} onClick={(e) => next()} ><i class="fas fa-chevron-circle-right"></i> next </button>
 </div>
 
 </div>

@@ -51,16 +51,18 @@ const header = () =>{
   </li>
 
   <li><a href="#">Diet and dishes</a></li>
-  <li><a href="#">Blogs</a></li>
+  <li><a href="/blogs">Blogs</a></li>
   
   <li><a href="#">Contact</a></li>
 
 { isAuth() ?
   <li class="drop-down"><a href="#" style={{color:"#3aac48"}}>{isAuth().firstname  } {isAuth().lastname}</a>
     <ul>
-      <li><Link to={{ pathname: '/profile', state:{}}}>Profile <i class="fas fa-user"></i></Link></li>
-  
-      <li><a  href='#' onClick={() => signout(() => {history.push("/");})}>SignOut  <i class="fas fa-sign-out-alt"></i></a></li>
+      <li><Link to={{ pathname: '/profile', state:{}}}> <i class="fas fa-user"></i> Profile </Link></li>
+      <li><a href="/create">  <i class="fas fa-feather-alt"></i> Create post  </a></li>
+      <li><a href="/blogs">  <i class="fas fa-bell"></i>  Notification  </a></li>
+
+      <li><a  href='#' onClick={() => signout(() => {history.push("/");})}> <i class="fas fa-sign-out-alt"></i> SignOut  </a></li>
 
     </ul>
   </li>

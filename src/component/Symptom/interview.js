@@ -8,9 +8,12 @@ import axios from 'axios';
     this.state = {
     single_Answer:'',
     Answers_Group_Single_question:'',
+    groupindex:0,
     groupMulti:'',
     Question:{},
+    questionType:'',
     pause:false,
+    disgonstic:{}
   
     };
   }
@@ -53,7 +56,7 @@ import axios from 'axios';
      }
   }
    Loadquestions = async() => {
-    let disgonstic = {
+    this.state.disgonstic = {
       sex: this.props.state.gender,
   age: {
     value: this.props.state.age
@@ -62,7 +65,7 @@ import axios from 'axios';
 }
     
 
-this.state.Question = await axios.post(`http://localhost:8000/user/checkup`,  disgonstic )
+this.state.Question = await axios.post(`http://localhost:8000/user/checkup`,  this.state.disgonstic )
 .then(res => {
 
   console.log('q',res.data);
@@ -100,7 +103,7 @@ console.log(err);
         
         return(  <div key={item.id} >
           
-                <label class="" >   <input class="form-check-input" type="radio" value={item.id}  onChange={this.Answers_Group_Single} name="dfas" id={item.id}   
+                <label class="" >   <input class="form-check-input" type="radio" value={item.id}  onChange={this.Answers_Group_Single} name="GroupSingle" id={item.id}   
          /> {this.state.Question.question.items[index].name}</label>
               </div>
    
@@ -108,7 +111,7 @@ console.log(err);
            }
         )
         }        
-             <button type="button" data-value="true"  onClick={this.nextQuestion('GroupSingle')} class="next-question btn btn-success">next question</button> 
+             <a type="button" data-value="true"  onClick={this.nextQuestion} class="next-question btn btn-success">next question</a> 
          
    
           
@@ -150,7 +153,23 @@ console.log(err);
           
         <br/>
   
-        <div class="input-group mb-3">
+  
+                 
+        {this.state.Question.question.items.map((item, index) => {
+        
+        return(  <div key={item.id} >
+          
+                <label class="" >   <input class="form-check-input" type="radio" value={item.id}  onChange={this.Answers_Group_Single} name="GroupSingle" id={item.id}   
+         /> {this.state.Question.question.items[index].name}</label>
+              </div>
+   
+        )
+           }
+        )
+        }        
+             <a type="button" data-value="true"  onClick={this.nextQuestion} class="next-question btn btn-success">next question</a> 
+         
+        {/* <div class="input-group mb-3">
   <div class="input-group-prepend">
 
     <div class="input-group-text" style={{padding:'5px', background:'lightblue',color:'black'}}>
@@ -165,9 +184,9 @@ wqrwrwveqv  qwr wqr
     
             
   </div>
-  </div>
+  </div> */}
   
-  <div class="input-group mb-3">
+  {/* <div class="input-group mb-3">
   <div class="input-group-prepend">
 
     <div class="input-group-text" style={{padding:'5px', background:'lightblue',color:'black'}}>
@@ -182,7 +201,7 @@ wqrwrwveqv  qwr wqr
     
             
   </div>
-  </div>
+  </div> */}
   
 
 
@@ -197,28 +216,61 @@ wqrwrwveqv  qwr wqr
    )
   };
   
-  nextQuestion =(value) =>{
-
-console.log(value);
-    if(value == 'GroupSingle'){
-      if(this.state.Answers_Group_Single) {
-      this.props.state.evidence.push({ id: this.state.Answers_Group_Single, choice_id: "present"});
-      console.log('evidenvce ',this.props.state.evidence);
-      this.state.Question = {};
-      this.state.pause = false;
+  nextQuestion = async() =>{
+console.log(' next question');
+console.log(this.state.questionType, this.state.Answers_Group_Single_question);
+// console.log(value);
+    if(this.state.questionType == 'GroupSingle'){
+      if(this.state.Answers_Group_Single != '') {
+       this.state.disgonstic.evidence.push({ id:this.state.Answers_Group_Single_question, choice_id: "present"});
+     console.log('evidenvce ',this.state.disgonstic.evidence);
+//       this.state.Question = {};
+//       this.state.pause = false;
       
-      this.forceUpdate();
+    
+//       }else{
+//         console.log(' null or empty ')
       }
+    }else if(this.state.questionType == 'single'){
+
+
     }
+
+
+    this.state.Question = await axios.post(`http://localhost:8000/user/checkup`,  this.state.disgonstic )
+.then(res => {
+
+  console.log('q',res.data);
+  this.props.setState("question",res.data);
+return res.data;
+   
+  
+})   
+.catch(err => {
+console.log(err);
+ alert( err );
+});
+     this.forceUpdate();
     
   }
-  SingleAnswer = (e) =>{
+  SingleAnswer = async(e) =>{
 
-    console.log(e);
-    // if(e.target !== undefined){
-    //   this.single_Answer =e.target.id;
-
-    // }
+    console.log(e.target.id, e.target.name);
+    this.state.disgonstic.evidence.push({ id: e.target.name, choice_id: e.target.id });
+    this.state.Question = await axios.post(`http://localhost:8000/user/checkup`,  this.state.disgonstic )
+    .then(res => {
+    
+      console.log('q',res.data);
+      this.props.setState("question",res.data);
+    return res.data;
+       
+      
+    })   
+    .catch(err => {
+    console.log(err);
+     alert( err );
+    });
+         this.forceUpdate();
   }
   
   onGroup = (e) =>{
@@ -228,12 +280,14 @@ console.log(value);
   Answers_Group_Single =(e) =>{
 
     console.log(e.target.id);
-    this.Answers_Group_Single_question =e.target.id;
+    this.state.Answers_Group_Single_question =e.target.id;
+    this.state.questionType = e.target.name;
   }
    AnswersSingle = () => {
     if(this.state.Question.question){
       this.state.pause = true;
     }
+    this.state.questionType = 'single';
     console.log(this.state.Question.question.items);
 
     return(
@@ -244,23 +298,26 @@ console.log(value);
 
      <div style={{padding:'50px'}}>
        
-        {this.state.Question.question.items.map((item, index) => 
-       
-       {
-         item.choices.map((i,index) =>{
+        {this.state.Question.question.items[0].choices.map((item, index) => {
+        
 return(
-<button key={i.id} type="button" data-value="true" onClick={this.SingleAnswer} id={i.id} class="next-question btn btn-success">{i.label}</button>
+ <div key={item.id}>
+    <input type="button"  value={item.label}   class="next-question btn btn-danger"  onClick={this.SingleAnswer} name={this.state.Question.question.items[0].id} id={item.id}   
+         />
+    {/* <button type="button" data-value="false"  onClick={this.SingleAnswer} class="next-question btn btn-danger">{item.label}</button> */}
+   </div>
 )
          })
            }
-        )
-        }
+        
+        
         {/* <button type="button" data-value="true"  nextQuestion class="next-question btn btn-success">Yes</button>
         <button type="button" data-value="false" class="next-question btn btn-danger">No</button>
         <button type="button" data-value="unknown" class="next-question btn btn-info">Skip question</button>
        */}
      </div>
        <br/>
+       
 <br/>
       </div>)
     
@@ -269,6 +326,8 @@ return(
     displayQuestions  () {
       console.log('question',this.state.Question);
     if(this.state.Question.question !== undefined ){
+
+      if(this.state.Question.should_stop == false){
 
     
     if(  this.state.Question.question.type !== undefined){
@@ -283,9 +342,16 @@ return(
     } else  if(this.state.Question.question.type == "single"){
      return this.AnswersSingle();
     }
+
+
   }
+  }else {
+    return <div> {<Redirect to={{
+      pathname: '/Result',
+      state: { diognistic: this.state.disgonstic,question:this.state.Question }}}
+/>} </div>
   }
-  
+}
   }
   render(){
  
@@ -310,7 +376,7 @@ return(
 <div class="row">
 
 <div class="col-lg-3">
-<div class="text-center"><button class="btn btn-success"  type="submit"  disabled={this.props.isFirst()} onClick={this.props.prev}><i class="fas fa-pencil-alt"></i> back </button></div>
+<div class="text-center"></div>
 
 </div>
 
@@ -320,7 +386,7 @@ return(
 
 <div class="col-lg-3">
 <div class="text-center" >
-    <button class="btn btn-success"  type="submit"  disabled={this.props.isLast()} onClick={this.props.next} ><i class="fas fa-pencil-alt"></i> next </button>
+    <button class="btn btn-success"  type="submit"  disabled={this.props.isLast()} onClick={this.props.next} > <i class="fas fa-chevron-circle-right"></i> next </button>
 </div>
 
 </div>
