@@ -4,7 +4,8 @@ import { Link, Redirect, useHistory,useLocation} from 'react-router-dom';
 import { authenticate, isAuth } from '../../helpers/auth';
 import TextareaAutosize from "react-autosize-textarea";
 import axios from 'axios';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class Blog extends Component {
     constructor(props) {
@@ -76,16 +77,34 @@ this.state.post = this.props.location.post;
       .then((res) => {
         console.log(res);
         this.state.message = '';
-        alert(res.data, "posted");
+     
+        toast.success('comment posted...', {
+          position:"bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
 
         this.forceUpdate();
       })
       .catch((err) => {
         console.log('error',err.data);
+        toast.error('an error occured..', {
+          position:"bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
       });
       }else {
 
-        alert('create an account');
+        
       }
     }
     dateformat(date) {
@@ -115,7 +134,8 @@ this.state.post = this.props.location.post;
     return(  <div class="blog-comments">
 
       <h4 class="comments-count">{this.state.comments != null?this.state.comments.length:'0'} Comments</h4>
-
+      <ToastContainer />
+    
       {/* <div id="comment-1" class="comment clearfix">
         <img src="assets/img/comments-1.jpg" class="comment-img  float-left" alt=""/>
         <h5><a href="">Georgia Reader</a> <a href="#" class="reply"><i class="icofont-reply"></i> Reply</a></h5>
@@ -257,8 +277,7 @@ this.state.post = this.props.location.post;
         <div class="container">
           <div class="breadcrumb-hero">
             <h2>Blog</h2>
-            <p>Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium. </p>
-          </div>
+           </div>
         </div>
       </div>
       <div class="container">

@@ -4,6 +4,8 @@ import log from '../Auth/img/log.svg';
 import reg from '../Auth/img/register.svg';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
+import Swal from 'sweetalert2';
+
 
 import { Link, Redirect, useHistory,useLocation} from 'react-router-dom';
  
@@ -38,13 +40,21 @@ import { Link, Redirect, useHistory,useLocation} from 'react-router-dom';
               resetPasswordLink: token
           })
           .then(res => {
-            console.log(res.data.message)
+         
               setFormData({
                 ...formData,
                  password1: '',
                 password2: ''
               });
-              alert(res.data.message);
+          
+              
+              Swal.fire({
+                icon: 'success',
+                title: ' ',
+                text: res.data.message,
+                footer: ''
+              })
+              
             //   window.location.reload(false);
               history.push("/Auth");
               
@@ -54,10 +64,22 @@ import { Link, Redirect, useHistory,useLocation} from 'react-router-dom';
             
           })
           .catch(err => {
-            alert('Something is wrong. Link might be expired. please try again!!');
+            Swal.fire({
+              icon: 'error',
+              title:'Something is wrong. Link might be expired. please try again!!',
+              text: '',
+              footer: ''
+            })
+          
           });
       } else {
-        alert('Passwords don\'t matches');
+     
+        Swal.fire({
+          icon: 'warning',
+          title: 'Passwords don\'t matches',
+          text: '',
+          footer: ''
+        })
       }
     };
 

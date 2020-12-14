@@ -3,6 +3,8 @@ import './style.css';
 import log from '../Auth/img/log.svg';
 import reg from '../Auth/img/register.svg';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+
 
 import { Link, Redirect, useHistory,useLocation} from 'react-router-dom';
  
@@ -30,15 +32,32 @@ import { Link, Redirect, useHistory,useLocation} from 'react-router-dom';
                   ...formData,
                   email: '',
                 });
-                alert(`Please check your email`);
-              
+         
+                Swal.fire({
+                  icon: 'success',
+                  title: ' ',
+                  text: 'please check your Email  to Reset your Password.',
+                  footer: ''
+                })
             })
             .catch(err => {
-            console.log(err);
-             alert(err.response.data.error);
+          
+           
+             Swal.fire({
+              icon: 'error',
+              title: err.response.data.error,
+              text: '',
+              footer: ''
+            })
             });
         } else {
-          alert('Please fill all fields');
+     
+          Swal.fire({
+            icon: 'warning',
+            title: 'Please fill all fields',
+            text: '',
+            footer: ''
+          })
         }
       };
         return (

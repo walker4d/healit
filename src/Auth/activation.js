@@ -5,6 +5,7 @@ import reg from '../Auth/img/register.svg';
 import { Link, Redirect, useHistory,useLocation} from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import jwt from 'jsonwebtoken';
 import { authenticate, isAuth } from '../helpers/auth';
  
@@ -39,13 +40,23 @@ function shoot() {
       .then(res => {
        
         // console.log(res.data.user);
-        alert(res.data.message);
-
+        // alert(res.data.message);
+        Swal.fire({
+          icon: 'success',
+          title: '',
+          text:res.data.message,
+          footer: ''
+        })
        
       })
       .catch(err => {
-        console.log(err);
-        alert('Link Expired. sign up again' + err.error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops... ',
+          text: err.response.data,
+          footer: ''
+        })
+        
       });
   }
  

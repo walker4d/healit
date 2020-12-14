@@ -2,9 +2,10 @@ import React, {  Component } from 'react'
 import { Link, Redirect, useHistory,useLocation,useRouteMatch } from 'react-router-dom';
 import { authenticate, isAuth,signout, updateUser } from '../helpers/auth';
 import axios from 'axios';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default class Profile extends Component {
-  
+
   constructor(props) {
     super(props);
     this.user =  React.createRef();
@@ -15,13 +16,50 @@ export default class Profile extends Component {
         gender:'',
         age:'',
         username:'',
-        email:''
+        email:'',
+        Posts: null,
 
     };
   }
+
+  async loadPosts() {
+  
+    let res = await axios.get(`http://localhost:8000/posts/${isAuth()._id}`);
+
+    this.state.Posts = res.data;
+
+    console.log(this.state.Posts, "post");
+    this.forceUpdate();
+  }
+  dateformat(date) {
+    var monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    let d = new Date(date);
+    var day = d.getDate();
+    var monthIndex = d.getMonth();
+    var year = d.getFullYear();
+
+    console.log(d);
+    return <div>{day + " " + monthNames[monthIndex] + " " + year}</div>;
+  }
   componentDidMount(){
     
+    this.loadPosts();
+    console.log('post ',this.state.Posts);
     if(isAuth()){
+     
 this.setState({
 
  
@@ -38,12 +76,102 @@ this.setState({
 
 
 });
+
     }
 
 
   }
  
+  Post() {
+    return (
+      <div class="row">
+        {this.state.Posts.map((post, index) => (
+          <div
+            class="col-lg-4  col-md-6 d-flex align-items-stretch"
+            data-aos="fade-up"
+          >
+            <article class="entry">
+              <div class="entry-img">
+                <img src={post.image} alt="" class="img-fluid" />
+              </div>
 
+              <h2 class="entry-title">
+                <Link to={{ pathname: "/blog", post: post }}>{post.Title}</Link>
+              </h2>
+
+              <div class="entry-meta">
+                <ul>
+                  <li class="d-flex align-items-center">
+                    <i class="icofont-user"></i>{" "}
+                    <a href="blog-single.html">{post.Author}</a>
+                  </li>
+                  <li class="d-flex align-items-center">
+                    <i class="icofont-wall-clock"></i>{" "}
+                    <a href="blog-single.html">
+                      <time datetime="2020-01-01">
+                        {this.dateformat(post.createdAt)}
+                      </time>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="entry-footer clearfix ">
+                <div class="float-left">
+                  
+
+                  <i class="icofont-tags"></i>
+                  <ul class="tags">
+                   {
+                    post.Tags.map((tag, index) => (
+
+                      <li>
+                      <a href="#">{tag}</a>
+                    </li>
+                    
+                      ))
+                   }
+                   
+                  
+                  </ul>
+                </div>
+              </div>
+              <hr />
+              <br />
+              <div class="entry-content">
+                <p>{post.Description.substring(0, 250)}</p>
+                <div class="read-more"></div>
+              </div>
+
+              <div class="entry-footer clearfix ">
+                <div class="float-left">
+                  <ul class="tags">
+                    <li>
+                      <a href="#">
+                        {" "}
+                        <i class="fas fa-arrow-up"></i>13
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        {" "}
+                        <i class="fas fa-arrow-down"></i> 12
+                      </a>
+                    </li>
+                    <li>
+                      {" "}
+                      <Link to={{ pathname: "/blog", post: post }}>
+                        <i class="icofont-comment"></i> {post.comments_amount != null? post.comments_amount:'0'} Comments
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   
   
@@ -72,6 +200,7 @@ conditionalStyle(con,un){
 }
 handleSubmit = e => {
   e.preventDefault();
+  toast.configure();
   if (this.state.age && this.state.firstname && this.state.lastname ) {
   
     axios
@@ -81,7 +210,16 @@ handleSubmit = e => {
         updateUser(res, ()=>{
 
   
-          alert(`information has been updated`);
+          
+          toast.success('Your Information has been updated...', {
+            position:"bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });
 
           this.setState({
 
@@ -108,7 +246,16 @@ handleSubmit = e => {
        alert(err.response.data.error);
       });
   } else {
-    alert('Please fill all fields');
+    
+    toast.warn('Please fill all fields', {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
   }
 }
   render() {
@@ -117,7 +264,7 @@ handleSubmit = e => {
     return (
 
       <div id="main">
-        
+        <ToastContainer />
       <section id="cta" class="cta" style={{height:'200px'}}>
 <div class="container" data-aos="fade-in">
 
@@ -141,7 +288,7 @@ handleSubmit = e => {
  <ul id="portfolio-flters" style={{padding:'20px'}}>
    <li data-filter=".filter-settings"  style ={{padding:'20px'}} class="filter-active"> <i class="fas fa-user-cog"></i> profile settings </li>
    <li data-filter=".filter-app" style ={{padding:'20px'}}><i class="fas fa-clipboard"></i> Post</li>
-   <li data-filter=".filter-card" style ={{padding:'20px'}}> <i class="fas fa-search"></i> Recent Searches</li>
+   {/* <li data-filter=".filter-card" style ={{padding:'20px'}}> <i class="fas fa-search"></i> Recent Searches</li> */}
    <li data-filter=".filter-web" style ={{padding:'20px'}}> <i class="fas fa-star"></i> Favourites </li>
  </ul>
 </div>
@@ -249,18 +396,20 @@ handleSubmit = e => {
 
  </div>
 
-<div class="col-lg-4 col-md-6 portfolio-item filter-app">
- <div class="portfolio-wrap">
-   <img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt=""/>
-   <div class="portfolio-info">
-     <h4>App 1</h4>
-     <p>App</p>
-     <div class="portfolio-links">
-       <a href="assets/img/portfolio/portfolio-1.jpg" data-gall="portfolioGallery" class="venobox" title="App 1"><i class="bx bx-plus"></i></a>
-       <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-     </div>
-   </div>
- </div>
+<div class="col-lg-12 col-md-12 portfolio-item filter-app">
+<section id="blog" class="blog">
+          <div class="container">
+            <h1> Your Posts</h1>
+            <hr/>
+            <div class="row">
+              {this.state.Posts != null ? (
+                <div>{this.Post()}</div>
+              ) : (
+                <div>No posts available</div>
+              )}
+            </div>
+            </div>
+            </section>
 </div>
 
 <div class="col-lg-4 col-md-6 portfolio-item filter-web">
@@ -278,31 +427,7 @@ handleSubmit = e => {
 </div>
 
 <div class="col-lg-4 col-md-6 portfolio-item filter-app">
- <div class="portfolio-wrap">
-   <img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt=""/>
-   <div class="portfolio-info">
-     <h4>App 2</h4>
-     <p>App</p>
-     <div class="portfolio-links">
-       <a href="assets/img/portfolio/portfolio-3.jpg" data-gall="portfolioGallery" class="venobox" title="App 2"><i class="bx bx-plus"></i></a>
-       <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-     </div>
-   </div>
- </div>
-</div>
 
-<div class="col-lg-4 col-md-6 portfolio-item filter-card">
- <div class="portfolio-wrap">
-   <img src="assets/img/portfolio/portfolio-4.jpg" class="img-fluid" alt=""/>
-   <div class="portfolio-info">
-     <h4>Card 2</h4>
-     <p>Card</p>
-     <div class="portfolio-links">
-       <a href="assets/img/portfolio/portfolio-4.jpg" data-gall="portfolioGallery" class="venobox" title="Card 2"><i class="bx bx-plus"></i></a>
-       <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-     </div>
-   </div>
- </div>
 </div>
 
 <div class="col-lg-4 col-md-6 portfolio-item filter-web">
@@ -320,60 +445,9 @@ handleSubmit = e => {
 </div>
 
 <div class="col-lg-4 col-md-6 portfolio-item filter-app">
- <div class="portfolio-wrap">
-   <img src="assets/img/portfolio/portfolio-6.jpg" class="img-fluid" alt=""/>
-   <div class="portfolio-info">
-     <h4>App 3</h4>
-     <p>App</p>
-     <div class="portfolio-links">
-       <a href="assets/img/portfolio/portfolio-6.jpg" data-gall="portfolioGallery" class="venobox" title="App 3"><i class="bx bx-plus"></i></a>
-       <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-     </div>
-   </div>
- </div>
+ 
 </div>
 
-<div class="col-lg-4 col-md-6 portfolio-item filter-card">
- <div class="portfolio-wrap">
-   <img src="assets/img/portfolio/portfolio-7.jpg" class="img-fluid" alt=""/>
-   <div class="portfolio-info">
-     <h4>Card 1</h4>
-     <p>Card</p>
-     <div class="portfolio-links">
-       <a href="assets/img/portfolio/portfolio-7.jpg" data-gall="portfolioGallery" class="venobox" title="Card 1"><i class="bx bx-plus"></i></a>
-       <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-     </div>
-   </div>
- </div>
-</div>
-
-<div class="col-lg-4 col-md-6 portfolio-item filter-card">
- <div class="portfolio-wrap">
-   <img src="assets/img/portfolio/portfolio-8.jpg" class="img-fluid" alt=""/>
-   <div class="portfolio-info">
-     <h4>Card 3</h4>
-     <p>Card</p>
-     <div class="portfolio-links">
-       <a href="assets/img/portfolio/portfolio-8.jpg" data-gall="portfolioGallery" class="venobox" title="Card 3"><i class="bx bx-plus"></i></a>
-       <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-     </div>
-   </div>
- </div>
-</div>
-
-{/* <div class="col-lg-4 col-md-6 portfolio-item filter-web">
- <div class="portfolio-wrap">
-   <img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt=""/>
-   <div class="portfolio-info">
-     <h4>Web 3</h4>
-     <p>Web</p>
-     <div class="portfolio-links">
-       <a href="assets/img/portfolio/portfolio-9.jpg" data-gall="portfolioGallery" class="venobox" title="Web 3"><i class="bx bx-plus"></i></a>
-       <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-     </div>
-   </div>
- </div>
-</div> */}
 
 </div>
 

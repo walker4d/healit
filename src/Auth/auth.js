@@ -6,6 +6,7 @@ import './style.css';
 import log from '../Auth/img/log.svg';
 import reg from '../Auth/img/register.svg';
 import axios from 'axios';
+import Swal from 'sweetalert2'
 import { authenticate, isAuth } from '../helpers/auth';
 import { useForm } from "react-hook-form";
 
@@ -76,25 +77,25 @@ const register = e => {
         .post(`http://localhost:8000/register`, {
           firstname:firstname,
           lastname:lastname,
-          age:20,
-          gender:'male',
+          age:0,
+          gender:gender,
           email:email,
           password: password
         })
         .then(res => {
-          // setFormData({
-          
-          //   firstname:'',
-          // lastname:'',
-          // age:0,
-          // gender:'',
-          // email:'',
-          // password: ''
-          // });
-console.log(res);
-         alert(res.data.message,'submitted');
+         
+console.log('response',res.body);
+        
+         Swal.fire({
+          icon: 'success',
+          title: 'Registration was sucessful ',
+          text: 'please check your Email  to activate your Account.',
+          footer: ''
+        })
         })
         .catch(err => {
+        
+
           setFormData({
           
             firstname:'',
@@ -104,14 +105,30 @@ console.log(res);
           email:'',
           password: ''
           });
-          console.log(err.data);
-          alert(err.data);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops... ',
+            text: 'Something went wrong! an error occurred. please check your fields',
+            footer: ''
+          })
+      
         });
     } else {
-alert('password does not match')
+Swal.fire({
+  icon: 'warning',
+  title: 'Passowrds does not match',
+  text: '',
+  footer: ''
+})
     }
   } else {
-    alert('Please fill all fields');
+
+    Swal.fire({
+      icon: 'warning',
+      title: 'Please fill all fields',
+      text: '',
+      footer: ''
+    })
   }
 };
 
@@ -148,8 +165,13 @@ const handleLoginSubmit = e => {
 authenticate(res, ()=>{
 
   
-  console.log(res.data);
-  alert('login WAS SUCCESFULL');
+ 
+  Swal.fire({
+    icon: 'success',
+    title: 'Logged in succesfully  ',
+    text: '',
+    footer: ''
+  })
   if(isAuth()){
 
     history.push("/");
@@ -165,12 +187,22 @@ authenticate(res, ()=>{
           lemail:'',
           lpassword: ''
           });
-          console.log(err.data);
-          alert(err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Incorrect email or password  ',
+            text: '',
+            footer: ''
+          })
         });
     
   } else {
-    alert('Please fill all fields');
+  
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops... ',
+      text: 'Something went wrong! an error occurred.',
+      footer: ''
+    })
   }
 };
 

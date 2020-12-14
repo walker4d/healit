@@ -4,7 +4,9 @@ import axios from "axios";
 import { authenticate, isAuth } from "../../helpers/auth";
 import { useForm } from "react-hook-form";
 import Select from "react-select";
-// import TextareaAutosize from 'react-textarea-autosize';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2'
 import TextareaAutosize from "react-autosize-textarea";
 import "../Blogs/style.css";
 
@@ -66,13 +68,24 @@ for(var tag of tags){
         Author: `${isAuth().firstname} ${isAuth().lastname}`
       })
       .then((res) => {
-        console.log(res);
-        alert(res.data, "submitted");
-        
+      
+     
+        Swal.fire({
+          icon: 'success',
+          title: 'Created ',
+          text: 'Post has been succesfully created.',
+          footer: ''
+        })
         history.push("/blogs");
       })
       .catch((err) => {
-        console.log(err.data);
+       
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops... ',
+          text: 'Something went wrong! an error occurred while trying to create post',
+          footer: ''
+        })
       });
   };
   const handleChange = (selectedOption) => {
